@@ -89,5 +89,5 @@ dependencies {
 
     implementation("dev.kdrag0n:colorkt:1.0.5")
 
-    debugImplementation("com.squareup.leakcanary:leakcanary-android:2.7")
+    debugImplementation("com.squareup.leakcanary:leakcanary-android:2.10")
 }
