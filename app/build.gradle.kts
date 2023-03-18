@@ -7,16 +7,17 @@ plugins {
 }
 
 android {
-    compileSdk = 31
-    buildToolsVersion = "31.0.0"
+    compileSdk = 33
+    buildToolsVersion = "33.0.2"
+    namespace = "dev.kdrag0n.android12ext"
 
     defaultConfig {
         applicationId = "dev.kdrag0n.android12ext"
         minSdk = 30
-        targetSdk = 31
-        versionCode = 9000000
-        versionName = "9.0.0-test1"
-
+        targetSdk = 33
+        versionCode = 9000001
+        versionName = "9.0.0-test2"
+        compileSdkPreview = "UpsideDownCake"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     buildFeatures {
@@ -32,18 +33,20 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "11"
     }
-    packagingOptions {
+    // Module info for kotlin-reflect - leaks info
+    // Builtin info for kotlin-reflect
+    packaging.resources.excludes.run {
         // Module info for kotlin-reflect - leaks info
-        exclude("/META-INF/*.kotlin_module")
-        exclude("/META-INF/*.version")
+        add("/META-INF/*.kotlin_module")
+        add("/META-INF/*.version")
         // Builtin info for kotlin-reflect
-        exclude("/kotlin/**")
+        add("/kotlin/**")
     }
 }
 
