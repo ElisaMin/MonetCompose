@@ -76,7 +76,7 @@ dependencies {
     implementation("dev.chrisbanes.insetter:insetter:0.6.0")
     implementation("com.crossbowffs.remotepreferences:remotepreferences:0.8")
     implementation("com.mikepenz:aboutlibraries:10.6.1")
-    implementation("com.jakewharton.timber:timber:4.7.1")
+    implementation("com.jakewharton.timber:timber:5.0.1")
     implementation("org.lsposed.hiddenapibypass:hiddenapibypass:4.3")
     implementation("com.jaredrummler:colorpicker:1.1.0")
     implementation("com.github.topjohnwu.libsu:core:3.1.2")
