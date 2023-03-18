@@ -9,7 +9,8 @@ jobs:
       contents: write
     steps:
       - uses: fastify/github-action-merge-dependabot@v3.6.2
-        with:
+        with: 
+           approve-only: true
            use-github-auto-merge: true
            github-token: ${{ secrets.TOKEN }}
            target: main
