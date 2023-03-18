@@ -68,7 +68,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.3.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1")
     implementation("androidx.core:core-splashscreen:1.0.0-alpha01")
-    implementation("com.google.dagger:hilt-android:2.37")
+    implementation("com.google.dagger:hilt-android:2.45")
     kapt("com.google.dagger:hilt-compiler:2.37")
 
     implementation("de.maxr1998:modernandroidpreferences:2.1.0")
