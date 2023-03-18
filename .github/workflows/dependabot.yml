@@ -1,0 +1,16 @@
+name: dependabot
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-lates
+  automerge:
+    needs: build
+    runs-on: ubuntu-latest
+
+    permissions:
+      pull-requests: write
+      contents: write
+
+    steps:
+      - uses: fastify/github-action-merge-dependabot@v3.0.0
