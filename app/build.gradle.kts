@@ -71,7 +71,7 @@ dependencies {
     implementation("com.google.dagger:hilt-android:2.45")
     kapt("com.google.dagger:hilt-compiler:2.37")
 
-    implementation("de.maxr1998:modernandroidpreferences:2.1.0")
+    implementation("de.maxr1998:modernandroidpreferences:2.3.2")
     implementation("com.microsoft.design:fluent-system-icons:1.1.196")
     implementation("dev.chrisbanes.insetter:insetter:0.6.0")
     implementation("com.crossbowffs.remotepreferences:remotepreferences:0.8")
