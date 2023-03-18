@@ -80,7 +80,7 @@ dependencies {
     implementation("org.lsposed.hiddenapibypass:hiddenapibypass:4.3")
     implementation("com.jaredrummler:colorpicker:1.1.0")
     implementation("com.github.topjohnwu.libsu:core:3.1.2")
-    implementation("com.github.Zhuinden:fragmentviewbindingdelegate-kt:1.0.0")
+    implementation("com.github.Zhuinden:fragmentviewbindingdelegate-kt:1.0.2")
     implementation("com.davemorrissey.labs:subsampling-scale-image-view-androidx:3.10.0")
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
