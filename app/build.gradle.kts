@@ -54,7 +54,7 @@ kapt {
 dependencies {
     compileOnly("de.robv.android.xposed:api:82")
 
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.5.21")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.8.10")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
 
