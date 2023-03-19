@@ -4,17 +4,20 @@ import dev.kdrag0n.colorkt.Color
 
 typealias ColorSwatch = Map<Int, Color>
 
-abstract class ColorScheme {
-    abstract val neutral1: ColorSwatch
-    abstract val neutral2: ColorSwatch
+interface ColorScheme {
+     val neutral1: ColorSwatch
+     val neutral2: ColorSwatch
 
-    abstract val accent1: ColorSwatch
-    abstract val accent2: ColorSwatch
-    abstract val accent3: ColorSwatch
+     val accent1: ColorSwatch
+     val accent2: ColorSwatch
+     val accent3: ColorSwatch
 
     // Helpers
-    val neutralColors: List<ColorSwatch>
-        get() = listOf(neutral1, neutral2)
-    val accentColors: List<ColorSwatch>
-        get() = listOf(accent1, accent2, accent3)
+    val neutralColors get() = Pair(neutral1, neutral2)
+    val accentColors get() = Triple(accent1, accent2, accent3)
+
+    // Material Color support
+    interface Material {
+
+    }
 }
