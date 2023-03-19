@@ -20,11 +20,13 @@ external fun monetConfig(): Monet.Config
 
 @Composable
 fun Kdrag0nTheme(
+    scheme: ColorScheme = kdrag0nColorScheme,
     shapes: Shapes = MaterialTheme.shapes,
     typography: Typography = MaterialTheme.typography,
     content: @Composable () -> Unit
 ) {
-    val scheme = kdrag0nColorScheme
+
+
     MaterialTheme(
         shapes = shapes,
         typography = typography,
@@ -39,7 +41,13 @@ val LocalSeekColorProvider: ProvidableCompositionLocal<Rgb> = staticCompositionL
 }
 
 val kdrag0nColorScheme: ColorScheme
-    @Composable get() = if (systemIsDarkTheme()) rememberKdrag0nDarkColorScheme() else rememberKdrag0nLightColorScheme()
+    @Composable get() =
+        LocalSeekColorProvider.current.let { color ->
+            Dynamic[color].let { scheme ->
+                if (systemIsDarkTheme()) scheme.darkM3Scheme() else scheme.lightM3Scheme()
+            }
+
+        }
 
 @Composable
 fun currentKdrag0nColorState(): State<Kdrag0nColorScheme> {
@@ -47,97 +55,73 @@ fun currentKdrag0nColorState(): State<Kdrag0nColorScheme> {
     return mutableStateOf(Dynamic[LocalSeekColorProvider.current, config])
 }
 
-
 @Composable
 fun rememberKdrag0nColorState(): Kdrag0nColorScheme =
     remember(LocalSeekColorProvider.current) { currentKdrag0nColorState() }.value
 
-fun rememberKdrag0nLightColorScheme(): ColorScheme = remember {
-    rememberKdrag0nColorState().materialLight().run {
-        lightColorScheme(
-            primary = primary.toComposeColor(),
-            onPrimary = onPrimary.toComposeColor(),
-            primaryContainer = primaryContainer.toComposeColor(),
-            onPrimaryContainer = onPrimaryContainer.toComposeColor(),
+fun Kdrag0nColorScheme.lightM3Scheme(): ColorScheme = materialLight().run {
+    lightColorScheme(
+        primary = primary.toComposeColor(),
+        onPrimary = onPrimary.toComposeColor(),
+        primaryContainer = primaryContainer.toComposeColor(),
+        onPrimaryContainer = onPrimaryContainer.toComposeColor(),
 
-            secondary = secondary.toComposeColor(),
-            onSecondary = onSecondary.toComposeColor(),
-            secondaryContainer = secondaryContainer.toComposeColor(),
-            onSecondaryContainer = onSecondaryContainer.toComposeColor(),
+        secondary = secondary.toComposeColor(),
+        onSecondary = onSecondary.toComposeColor(),
+        secondaryContainer = secondaryContainer.toComposeColor(),
+        onSecondaryContainer = onSecondaryContainer.toComposeColor(),
 
-            tertiary = tertiary.toComposeColor(),
-            onTertiary = onTertiary.toComposeColor(),
-            tertiaryContainer = tertiaryContainer.toComposeColor(),
-            onTertiaryContainer = onTertiaryContainer.toComposeColor(),
+        tertiary = tertiary.toComposeColor(),
+        onTertiary = onTertiary.toComposeColor(),
+        tertiaryContainer = tertiaryContainer.toComposeColor(),
+        onTertiaryContainer = onTertiaryContainer.toComposeColor(),
 
-//            error = error.toComposeColor(),
-//            onError = onError.toComposeColor(),
-//            errorContainer = errorContainer.toComposeColor(),
-//            onErrorContainer = onErrorContainer.toComposeColor(),
+        background = background.toComposeColor(),
+        onBackground = onBackground.toComposeColor(),
 
-            background = background.toComposeColor(),
-            onBackground = onBackground.toComposeColor(),
+        surface = surface.toComposeColor(),
+        onSurface = onSurface.toComposeColor(),
+        surfaceVariant = surfaceVariant.toComposeColor(),
+        onSurfaceVariant = onSurfaceVariant.toComposeColor(),
 
-            surface = surface.toComposeColor(),
-            onSurface = onSurface.toComposeColor(),
-            surfaceVariant = surfaceVariant.toComposeColor(),
-            onSurfaceVariant = onSurfaceVariant.toComposeColor(),
-            // errors
-//            surfaceTint = surfaceTint.toComposeColor(),
-//            scrim = scrim.toComposeColor(),
-//            outlineVariant = outlineVariant.toComposeColor(),
 
-            outline = outline.toComposeColor(),
-            inversePrimary = inversePrimary.toComposeColor(),
-            inverseSurface = inverseSurface.toComposeColor(),
-            inverseOnSurface = inverseOnSurface.toComposeColor(),
-        )
-    }
+        outline = outline.toComposeColor(),
+        inversePrimary = inversePrimary.toComposeColor(),
+        inverseSurface = inverseSurface.toComposeColor(),
+        inverseOnSurface = inverseOnSurface.toComposeColor(),
+    )
 }
+fun Kdrag0nColorScheme.darkM3Scheme(): ColorScheme = materialDark().run {
+    lightColorScheme(
+        primary = primary.toComposeColor(),
+        onPrimary = onPrimary.toComposeColor(),
+        primaryContainer = primaryContainer.toComposeColor(),
+        onPrimaryContainer = onPrimaryContainer.toComposeColor(),
+
+        secondary = secondary.toComposeColor(),
+        onSecondary = onSecondary.toComposeColor(),
+        secondaryContainer = secondaryContainer.toComposeColor(),
+        onSecondaryContainer = onSecondaryContainer.toComposeColor(),
+
+        tertiary = tertiary.toComposeColor(),
+        onTertiary = onTertiary.toComposeColor(),
+        tertiaryContainer = tertiaryContainer.toComposeColor(),
+        onTertiaryContainer = onTertiaryContainer.toComposeColor(),
+
+        background = background.toComposeColor(),
+        onBackground = onBackground.toComposeColor(),
+
+        surface = surface.toComposeColor(),
+        onSurface = onSurface.toComposeColor(),
+        surfaceVariant = surfaceVariant.toComposeColor(),
+        onSurfaceVariant = onSurfaceVariant.toComposeColor(),
 
 
-
-fun rememberKdrag0nDarkColorScheme(): ColorScheme = remember {
-    rememberKdrag0nColorState().materialDark().run {
-        darkColorScheme(
-            primary = primary.toComposeColor(),
-            onPrimary = onPrimary.toComposeColor(),
-            primaryContainer = primaryContainer.toComposeColor(),
-            onPrimaryContainer = onPrimaryContainer.toComposeColor(),
-
-            secondary = secondary.toComposeColor(),
-            onSecondary = onSecondary.toComposeColor(),
-            secondaryContainer = secondaryContainer.toComposeColor(),
-            onSecondaryContainer = onSecondaryContainer.toComposeColor(),
-
-            tertiary = tertiary.toComposeColor(),
-            onTertiary = onTertiary.toComposeColor(),
-            tertiaryContainer = tertiaryContainer.toComposeColor(),
-            onTertiaryContainer = onTertiaryContainer.toComposeColor(),
-
-//            error = error.toComposeColor(),
-//            onError = onError.toComposeColor(),
-//            errorContainer = errorContainer.toComposeColor(),
-//            onErrorContainer = onErrorContainer.toComposeColor(),
-
-            background = background.toComposeColor(),
-            onBackground = onBackground.toComposeColor(),
-
-            surface = surface.toComposeColor(),
-            onSurface = onSurface.toComposeColor(),
-            surfaceVariant = surfaceVariant.toComposeColor(),
-            onSurfaceVariant = onSurfaceVariant.toComposeColor(),
-            // errors
-//            surfaceTint = surfaceTint.toComposeColor(),
-//            scrim = scrim.toComposeColor(),
-//            outlineVariant = outlineVariant.toComposeColor(),
-
-            outline = outline.toComposeColor(),
-            inversePrimary = inversePrimary.toComposeColor(),
-            inverseSurface = inverseSurface.toComposeColor(),
-            inverseOnSurface = inverseOnSurface.toComposeColor(),
-        )
-    }
+        outline = outline.toComposeColor(),
+        inversePrimary = inversePrimary.toComposeColor(),
+        inverseSurface = inverseSurface.toComposeColor(),
+        inverseOnSurface = inverseOnSurface.toComposeColor(),
+    )
 }
 
 fun dev.kdrag0n.colorkt.Color.toComposeColor(): Color = when (this) {
