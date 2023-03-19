@@ -15,6 +15,7 @@ kotlin {
         commonMain {
             dependencies {
                 implementation("dev.kdrag0n:colorkt:${libs.versions.kotlin.color.get()}")
+                implementation("io.github.aakira:napier:${libs.versions.kotlin.napier.get()}")
             }
         }
         commonTest {
@@ -27,5 +28,4 @@ kotlin {
 }
 
 dependencies {
-
 }

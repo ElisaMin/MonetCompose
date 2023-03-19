@@ -1,3 +1,4 @@
 [versions]
 kotlin-lang="1.8.10"
 kotlin-color = "1.0.5"
+kotlin-napier = "2.6.1"

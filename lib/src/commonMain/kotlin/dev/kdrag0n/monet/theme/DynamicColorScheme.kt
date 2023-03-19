@@ -9,7 +9,7 @@ import dev.kdrag0n.colorkt.gamut.LchGamut.clipToLinearSrgb
 import dev.kdrag0n.colorkt.rgb.Srgb
 import dev.kdrag0n.colorkt.tristimulus.CieXyz
 import dev.kdrag0n.colorkt.tristimulus.CieXyzAbs.Companion.toAbs
-import timber.log.Timber
+import io.github.aakira.napier.Napier
 
 class DynamicColorScheme(
     targets: ColorScheme,
@@ -26,11 +26,11 @@ class DynamicColorScheme(
     private val seedAccent3 = seedAccent.copy(hue = complementColor?.convert<CieXyz>()
         ?.toAbs(cond.referenceWhite.y)
         ?.toZcam(cond, include2D = false)?.hue
-        ?: seedAccent.hue + ACCENT3_HUE_SHIFT_DEGREES
+        ?: (seedAccent.hue + ACCENT3_HUE_SHIFT_DEGREES)
     )
 
     init {
-        Timber.i("Seed color: ${seedColor.convert<Srgb>().toHex()} => $seedNeutral")
+        Napier.i("Seed color: ${seedColor.convert<Srgb>().toHex()} => $seedNeutral")
     }
 
     // Main accent color. Generally, this is close to the seed color.
@@ -58,7 +58,7 @@ class DynamicColorScheme(
             val newLch = transformColor(target, seed, reference)
             val newSrgb = newLch.convert<Srgb>()
 
-            Timber.d("Transform: [$shade] $target => $newLch => ${newSrgb.toHex()}")
+            Napier.d("Transform: [$shade] $target => $newLch => ${newSrgb.toHex()}")
             shade to newSrgb
         }.toMap()
     }
