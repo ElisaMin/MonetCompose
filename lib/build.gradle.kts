@@ -2,6 +2,8 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
+    // add multiple compose plugin
+    id("org.jetbrains.compose") version libs.versions.compose apply false
     kotlin("multiplatform") version libs.versions.kotlin.lang
 }
 
@@ -31,6 +33,12 @@ kotlin {
         commonMain {
 
             dependencies {
+                // Add compose dependencies
+//                implementation("org.jetbrains.compose.ui:ui:${libs.versions.compose.get()}")
+//                implementation("org.jetbrains.compose.ui:ui-tooling:${libs.versions.compose.get()}")
+//                implementation("org.jetbrains.compose.foundation:foundation:${libs.versions.compose.get()}")
+//                implementation("org.jetbrains.compose.material:material:${libs.versions.compose.get()}")
+//                implementation("org.jetbrains.compose.runtime:runtime:${libs.versions.compose.get()}")
                 implementation("dev.kdrag0n:colorkt:${libs.versions.kotlin.color.get()}")
                 implementation("io.github.aakira:napier:${libs.versions.kotlin.napier.get()}")
             }

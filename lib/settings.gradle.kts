@@ -1,4 +1,8 @@
-rootProject.name = "MonetCompose"
+rootProject.name = "monet-kdrag0n"
+
+// Include project compose-m3
+include(":compose-m3")
+include(":compose-m3:common")
 
 dependencyResolutionManagement {
     versionCatalogs {
