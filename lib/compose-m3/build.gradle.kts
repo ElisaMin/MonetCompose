@@ -55,6 +55,10 @@ kotlin {
         this["windowsMain"]?.windowsDependencies()
         this["windows-jnaMain"]?.apply {
             dependencies {
+                rootProject.libs.run {
+                    api(net.java.dev.jna.jna.platform)
+                    api(net.java.dev.jna.jna.asProvider())
+                }
 
             }
         }?.windowsDependencies()
