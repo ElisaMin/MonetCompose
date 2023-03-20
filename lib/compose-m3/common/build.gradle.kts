@@ -38,11 +38,12 @@ kotlin {
 //                implementation("junit:junit:4.13.2")
 //            }
 //        }
-//        val desktopMain by getting {
-//            dependencies {
-//                api(compose.preview)
-//            }
-//        }
+        val desktopMain by getting {
+            dependencies {
+                api(compose.preview)
+                implementation(compose.desktop.currentOs)
+            }
+        }
 //        val desktopTest by getting
     }
 }

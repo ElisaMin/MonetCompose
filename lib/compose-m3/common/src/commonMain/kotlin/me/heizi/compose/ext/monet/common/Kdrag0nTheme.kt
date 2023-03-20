@@ -4,7 +4,6 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
 import dev.kdrag0n.colorkt.rgb.Rgb
-import dev.kdrag0n.colorkt.rgb.Srgb
 import dev.kdrag0n.monet.theme.ColorScheme.Companion.materialDark
 import dev.kdrag0n.monet.theme.ColorScheme.Companion.materialLight
 import dev.kdrag0n.monet.theme.Dynamic
@@ -127,7 +126,6 @@ fun Kdrag0nColorScheme.darkM3Scheme(): ColorScheme = materialDark().run {
 }
 
 fun dev.kdrag0n.colorkt.Color.toComposeColor(): Color = when (this) {
-    is Srgb -> Color(toRgb8())
-    is Rgb -> Srgb(r, g, b).toComposeColor()
+    is Rgb -> Color(r.toFloat(), g.toFloat(),b.toFloat())
     else -> throw NotImplementedError("Not implemented for ${this::class.simpleName}")
 }
