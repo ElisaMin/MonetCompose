@@ -5,7 +5,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     // add multiple compose plugin
     id("org.jetbrains.compose") version libs.versions.compose apply false
-    kotlin("multiplatform") version libs.versions.kotlin.lang
+    kotlin("multiplatform") version 1.8.10
     alias(libs.plugins.nl.littlerobots.version.catalog.update)
     alias(libs.plugins.com.github.ben.manes.versions)
 }
