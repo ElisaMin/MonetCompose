@@ -5,6 +5,8 @@ plugins {
     // add multiple compose plugin
     id("org.jetbrains.compose") version libs.versions.compose apply false
     kotlin("multiplatform") version libs.versions.kotlin.lang
+    alias(libs.plugins.nl.littlerobots.version.catalog.update)
+    alias(libs.plugins.com.github.ben.manes.versions)
 }
 
 group = "me.heizi.monet"
