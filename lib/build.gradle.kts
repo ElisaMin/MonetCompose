@@ -1,3 +1,4 @@
+import nl.littlerobots.vcu.plugin.versionCatalogUpdate
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 @Suppress("DSL_SCOPE_VIOLATION")
@@ -12,7 +13,6 @@ plugins {
 group = "me.heizi.monet"
 version = "1.0-SNAPSHOT"
 
-//define repositories for all projects
 allprojects {
     repositories {
         mavenCentral()
@@ -21,20 +21,9 @@ allprojects {
 }
 
 
-// add context-receivers to kotlin compiler
-tasks.withType(KotlinCompile::class).all {
-    kotlinOptions.freeCompilerArgs = listOf("-Xcontext-receivers")
-}
-
 kotlin {
-    jvm {
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = "19"
-            }
-        }
-    }
-    // jvm ()
+    jvmToolchain(19)
+    jvm ()
     sourceSets {
         commonMain {
 
@@ -43,17 +32,5 @@ kotlin {
                 implementation("io.github.aakira:napier:${libs.versions.kotlin.napier.get()}")
             }
         }
-        commonTest {
-//            dependencies {
-//                testImplementation(platform("org.junit:junit-bom:5.9.1"))
-//                testImplementation("org.junit.jupiter:junit-jupiter")
-//            }
-        }
     }
-    // define jvm toolchain
-    
-
-}
-
-dependencies {
 }
