@@ -10,8 +10,12 @@ plugins {
 group = "me.heizi.monet"
 version = "1.0-SNAPSHOT"
 
-repositories {
-    mavenCentral()
+//define repositories for all projects
+allprojects {
+    repositories {
+        mavenCentral()
+        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+    }
 }
 
 
@@ -33,12 +37,6 @@ kotlin {
         commonMain {
 
             dependencies {
-                // Add compose dependencies
-//                implementation("org.jetbrains.compose.ui:ui:${libs.versions.compose.get()}")
-//                implementation("org.jetbrains.compose.ui:ui-tooling:${libs.versions.compose.get()}")
-//                implementation("org.jetbrains.compose.foundation:foundation:${libs.versions.compose.get()}")
-//                implementation("org.jetbrains.compose.material:material:${libs.versions.compose.get()}")
-//                implementation("org.jetbrains.compose.runtime:runtime:${libs.versions.compose.get()}")
                 implementation("dev.kdrag0n:colorkt:${libs.versions.kotlin.color.get()}")
                 implementation("io.github.aakira:napier:${libs.versions.kotlin.napier.get()}")
             }
