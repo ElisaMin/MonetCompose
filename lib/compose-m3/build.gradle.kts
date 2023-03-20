@@ -36,7 +36,7 @@ kotlin {
 //        jvmToolchain(19)
 //    }
     sourceSets {
-        val commonMain by getting {
+        commonMain {
             dependencies {
                 implementation("dev.kdrag0n:colorkt:${rootProject.libs.versions.kotlin.color.get()}")
                 implementation(rootProject)
@@ -63,7 +63,7 @@ kotlin {
             }
         }?.windowsDependencies()
 
-        val commonTest by getting {
+        commonTest {
             dependencies {
                 api(compose.uiTestJUnit4)
                 compileOnly(compose.desktop.currentOs)

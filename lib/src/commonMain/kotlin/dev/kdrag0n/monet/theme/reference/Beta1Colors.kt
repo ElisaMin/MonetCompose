@@ -2,8 +2,8 @@ package dev.kdrag0n.monet.theme.reference
 
 import dev.kdrag0n.colorkt.rgb.Srgb
 import dev.kdrag0n.monet.theme.ColorScheme
-
-object Beta1Colors {
+@Suppress("unused")
+private object Beta1Colors {
     object PixelDefault : ColorScheme {
         override val neutral1 = mapOf(
             0    to Srgb(0xffffff),

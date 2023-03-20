@@ -1,3 +1,4 @@
+@file:Suppress("unused", "DuplicatedCode")
 package me.heizi.compose.ext.monet.common
 
 import androidx.compose.material3.*

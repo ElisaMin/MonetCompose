@@ -16,6 +16,7 @@ private val isWindowsSystem by lazy {
 
 private inline fun regGet(path:String,key:String) = runCatching {
     ProcessBuilder("cmd", "/c", "reg", "query", path.replace("/","\\"),"/v",key).start().let { process ->
+        @Suppress("ReplaceCallWithBinaryOperator")
         process.waitFor().equals(0) to
         process.inputStream.use { it.bufferedReader(charset("gbk"))
             .readText()

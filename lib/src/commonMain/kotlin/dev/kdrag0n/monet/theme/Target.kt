@@ -9,6 +9,7 @@ import dev.kdrag0n.colorkt.tristimulus.CieXyz.Companion.toXyz
 import dev.kdrag0n.colorkt.tristimulus.CieXyzAbs.Companion.toAbs
 import dev.kdrag0n.colorkt.ucs.lab.CieLab
 
+@Suppress("MemberVisibilityCanBePrivate")
 sealed interface Target:ColorScheme {
     /*
     * Default target colors, conforming to Material You standards.
