@@ -4,7 +4,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     // add multiple compose plugin
-    id("org.jetbrains.compose") version libs.versions.compose apply false
+    id("org.jetbrains.compose") version 1.3.1 apply false
     kotlin("multiplatform") version libs.versions.kotlin.lang
     alias(libs.plugins.nl.littlerobots.version.catalog.update)
     alias(libs.plugins.com.github.ben.manes.versions)
