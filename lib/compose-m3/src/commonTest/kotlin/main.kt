@@ -15,6 +15,7 @@ import me.heizi.compose.ext.monet.common.systemSeekColor
 import me.heizi.compose.ext.monet.common.toComposeColor
 
 
+@Suppress("SameParameterValue")
 @Composable
 private inline fun ColorBlock(color: Color, text:String="color") {
     Column {
