@@ -5,9 +5,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
 import dev.kdrag0n.colorkt.rgb.Rgb
-import dev.kdrag0n.monet.theme.ColorScheme.Companion.materialDark
-import dev.kdrag0n.monet.theme.ColorScheme.Companion.materialLight
-import dev.kdrag0n.monet.theme.Dynamic
+import dev.kdrag0n.monet.theme.ColorScheme.Dynamic
 import dev.kdrag0n.monet.theme.Monet
 import dev.kdrag0n.colorkt.rgb.Srgb as Kolor
 import dev.kdrag0n.monet.theme.ColorScheme as Kdrag0nColorScheme
@@ -25,8 +23,6 @@ fun Kdrag0nTheme(
     typography: Typography = MaterialTheme.typography,
     content: @Composable () -> Unit
 ) {
-
-
     MaterialTheme(
         shapes = shapes,
         typography = typography,
