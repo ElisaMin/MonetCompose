@@ -7,15 +7,33 @@ plugins {
     alias(libs.plugins.org.jetbrains.kotlin.multiplatform)
     alias(libs.plugins.nl.littlerobots.version.catalog.update)
     alias(libs.plugins.com.github.ben.manes.versions)
+    `maven-publish`
 }
 
-group = "me.heizi.monet"
-version = "1.0-SNAPSHOT"
-
 allprojects {
+    // apply maven publish
+    apply(plugin = "maven-publish")
+    group = "me.heizi.monet-kdrag0n"
+    version = rootProject.libs.versions.kdrag0n.monet.get()
+
     repositories {
         mavenCentral()
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+    }
+    publishing {
+
+//        // config kotlin multiplatfrom maven publishig
+//        publications {
+//            create<MavenPublication>("maven") {
+//                from(components["kotlin"])
+//            }
+//        }
+        repositories {
+            maven {
+                name = "repo-build-test"
+                url = uri("file://${rootProject.projectDir}/build/maven-repo/")
+            }
+        }
     }
 }
 
@@ -25,7 +43,6 @@ kotlin {
     jvm ()
     sourceSets {
         commonMain {
-
             dependencies {
                 implementation("dev.kdrag0n:colorkt:${libs.versions.kotlin.color.get()}")
                 implementation("io.github.aakira:napier:${libs.versions.kotlin.napier.get()}")
