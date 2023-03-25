@@ -27,18 +27,17 @@ jobs:
           uses: gradle/gradle-build-action@v2.4.0
           with: 
             gradle-version: current
-            arguments: |
-              build
-              publishAllPublicationsToTestRepository
+            arguments: publishAllPublicationsToTestRepository
             build-root-directory: ./lib
+        
         - name: see the tree of repo
           run: tree lib/build/maven-repo
 
-        # - name: Publish to GitHub Packages
-        #   uses: gradle/gradle-build-action@v2.4.0
-        #   with:
-        #     working-directory: ./lib
-        #     arguments: publish
-        #   env:
-        #     GITHUB_ACTOR: ${{ github.actor }}
-        #     GITHUB_TOKEN: ${{ secrets.PACKAGE }}
+        - name: Publish to GitHub Packages
+          uses: gradle/gradle-build-action@v2.4.0
+          with:
+            build-root-directory: ./lib
+            arguments: publish
+          env:
+            GITHUB_ACTOR: ${{ github.actor }}
+            GITHUB_TOKEN: ${{ secrets.PACKAGE }}
