@@ -1,5 +1,3 @@
-import nl.littlerobots.vcu.plugin.versionCatalogUpdate
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
@@ -11,7 +9,7 @@ plugins {
 }
 
 allprojects {
-    // apply maven publish
+
     apply(plugin = "maven-publish")
     group = "me.heizi.monet-kdrag0n"
     version = rootProject.libs.versions.kdrag0n.monet.get()
@@ -21,16 +19,9 @@ allprojects {
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
     }
     publishing {
-
-//        // config kotlin multiplatfrom maven publishig
-//        publications {
-//            create<MavenPublication>("maven") {
-//                from(components["kotlin"])
-//            }
-//        }
         repositories {
             maven {
-                name = "repo-build-test"
+                name = "test"
                 url = uri("file://${rootProject.projectDir}/build/maven-repo/")
             }
         }

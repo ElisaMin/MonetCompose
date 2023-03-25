@@ -1,59 +1,34 @@
 @file:OptIn(ExperimentalComposeLibrary::class)
 import org.jetbrains.compose.ExperimentalComposeLibrary
-import org.jetbrains.compose.compose
-import org.jetbrains.kotlin.gradle.internal.kapt.incremental.metadataDescriptor
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
-import org.jetbrains.kotlin.gradle.targets.jvm.KotlinJvmTarget
-import kotlin.system.exitProcess
 
 
 plugins {
     kotlin("multiplatform")
+    id("org.jetbrains.compose")
 //    kotlin("android") apply false
 //    id("com.android.application") apply false
 //    id("com.android.library") apply false
-    id("org.jetbrains.compose")
 }
 
-
-
-
-
-
-//configure<SourceSetContainer> {
-//    getByName("windowsMain")
-//}
 val jvmTargetSystem = Attribute.of("system.platform", String::class.java)
 val fork = Attribute.of("system.platform.fork", String::class.java)
-infix fun AttributeContainer.windowsFork(suboption:String) {
+infix fun AttributeContainer.windowsFork(forkName:String) {
     attribute(jvmTargetSystem, "windows")
-    attribute(fork, suboption)
+    attribute(fork, forkName)
 }
 kotlin {
     // android()
     jvmToolchain(19)
-    fun KotlinJvmTarget.publushToMaven() {
-        val setName = this.name
-        publishing {
-            publications {
-                getByName<MavenPublication>(setName) {
-                    groupId = project.group.toString()
-                    version = project.version.toString()
-                    artifactId = project.name+"-"+setName
-
-//                    artifact(tasks.findByName("javadocJar")!!)
-//                    artifact(tasks.findByName("sourcesJar")!!)
-                }
-            }
-        }
-    }
     jvm("windows") target@{
         attributes windowsFork "main"
-        publushToMaven()
     }
     jvm("windows-jna") target@ {
         attributes windowsFork "jna"
-        publushToMaven()
+        // set main sources set the default dir windows-jnaMain to windows-jna
+        compilations["main"].defaultSourceSet {
+            kotlin.srcDir("src/windows-jna/kotlin")
+        }
     }
     sourceSets {
         commonMain {
@@ -79,7 +54,6 @@ kotlin {
                     api(net.java.dev.jna.jna.platform)
                     api(net.java.dev.jna.jna.asProvider())
                 }
-
             }
         }?.windowsDependencies()
 
@@ -91,7 +65,6 @@ kotlin {
         }
     }
 }
-// fix Variants 'windowsRuntimeElements-published' and 'windows-jnaRuntimeElements-published' have the same attributes and capabilities.
 configurations.forEach {
     with(it.name) {when {
         startsWith("windows-jna")
@@ -99,20 +72,6 @@ configurations.forEach {
         startsWith("windows")
             -> it.attributes windowsFork "main"
     } }
-}
-configurations {
-
-    map {
-        it.name
-    }.forEach(::println)
-    //config windows-jna metadata api elements
-    // errors :
-    //  Variants 'windowsRuntimeElements-published' and 'windows-jnaRuntimeElements-published' have the same attributes and capabilities.
-    //  Variants 'windowsRuntimeElements-published' and 'windows-jnaRuntimeElements-published' have the same attributes and capabilities. Please make sure either attributes or capabilities are different.
-    // fix
-//    findByName("windowsRuntimeElements")?.attributes
-//    println(findByName("windows-jnaRuntimeElements")?.attributes)
-
 }
 //android {
 //    compileSdkVersion(33)
