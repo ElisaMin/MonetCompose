@@ -1,6 +1,9 @@
 name: release to github packages
 on:
+  release:
+    types: [published]
   workflow_dispatch:
+
 jobs:
   build:
     runs-on: windows-latest
@@ -22,7 +25,11 @@ jobs:
             java-version: '19'
             distribution: 'temurin'
 
-        
+        - name: Gradle Dependency Submission
+          uses: mikepenz/gradle-dependency-submission@v0.8.6
+          with:
+            gradle-project-path: ./lib
+
         - name: build
           uses: gradle/gradle-build-action@v2.4.0
           with: 
