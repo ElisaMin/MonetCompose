@@ -23,21 +23,12 @@ jobs:
             distribution: 'temurin'
 
         
-        - name: build and test publish
+        - name: build
           uses: gradle/gradle-build-action@v2.4.0
           with: 
             gradle-version: current
-            arguments: publishAllPublicationsToTestRepository
-            build-root-directory: ./lib
-        
-        - name: see the tree of repo
-          run: tree lib/build/maven-repo
-
-        - name: Publish to GitHub Packages
-          uses: gradle/gradle-build-action@v2.4.0
-          with:
-            build-root-directory: ./lib
             arguments: publish
+            build-root-directory: ./lib
           env:
             GITHUB_ACTOR: ${{ github.actor }}
-            GITHUB_TOKEN: ${{ secrets.PACKAGE }}
+            GITHUB_TOKEN: ${{ secrets.TOKEN }}
