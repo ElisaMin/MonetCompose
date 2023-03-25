@@ -4,10 +4,10 @@ on:
 jobs:
   build:
     runs-on: windows-latest
-    defaults:
-      run:
-        shell: pwsh
-        working-directory: ./lib
+    # defaults:
+    #   run:
+    #     shell: pwsh
+    #     working-directory: ./lib
     permissions:
       contents: read
       packages: write
@@ -29,10 +29,10 @@ jobs:
             gradle-version: current
             arguments: |
               build
-              lib:publishAllPublicationsToTestRepository
-            working-directory: ./lib
+              publishAllPublicationsToTestRepository
+            build-root-directory: ./lib
         - name: see the tree of repo
-          run: tree build/maven-repo
+          run: tree lib/build/maven-repo
 
         # - name: Publish to GitHub Packages
         #   uses: gradle/gradle-build-action@v2.4.0
