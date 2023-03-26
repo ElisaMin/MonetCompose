@@ -39,7 +39,7 @@ jobs:
           run: | 
             cd ./lib
             echo clone maven repo
-            git clone https://${{secrets.MAVEN_REPO}}@github.com/ElisaMin/MavenTest.git build/maven-repo
+            git clone https://${{ github.actor }}:${{secrets.MAVEN_REPO}}@github.com/ElisaMin/MavenTest.git build/maven-repo
             echo publish to maven repo
             ./gradlew publishAllPublicationsToTestRepository
             echo push to maven repo
