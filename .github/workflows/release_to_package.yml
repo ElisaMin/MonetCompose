@@ -25,17 +25,34 @@ jobs:
           with:
             java-version: '19'
             distribution: 'temurin'
+        
+        - name: gradle build
+          uses: gradle/gradle-build-action@v2.4.0
+          with: 
+            gradle-version: current
+            arguments: build
+            build-root-directory: ./lib
+        
         - name: publish to github maven repo
           run: | 
             cd ./lib
+            echo clone maven repo
             git clone https://${{secrets.MAVEN_REPO}}@github.com/ElisaMin/MavenTest.git build/maven-repo
-            ./gradlew build publishAllPublicationsToTestRepository
+            echo publish to maven repo
+            ./gradlew publishAllPublicationsToTestRepository
+            echo push to maven repo
             cd build/maven-repo
+            tree
             git config --global user.email "heizi@lge.fun"
             git config --global user.name "action auto commit"
+            echo config done
             git add .
+            echo commiting
             git commit -m "update maven repo by github action"
+            echo pushing
             git push
+            echo done
+            
         - name: publish to github packages
           uses: gradle/gradle-build-action@v2.4.0
           with: 
