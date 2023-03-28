@@ -15,8 +15,13 @@ object Monet {
         val accurateShades: Boolean = true,
         val useLinearLightness: Boolean = false,
     ) {
+
         companion object {
-            val default = Config()
+            @Suppress("MemberVisibilityCanBePrivate")
+            val Default = Config()
+            @get:JvmName("defaultDeprecated")
+            @Deprecated("Use Default instead", ReplaceWith("Default"))
+            val default get() =  Default
         }
 
         constructor(

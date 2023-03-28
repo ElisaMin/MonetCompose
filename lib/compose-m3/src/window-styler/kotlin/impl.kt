@@ -44,7 +44,7 @@ class MonetWindow private constructor(val window: Window = Frame()) {
     var current:ColorScheme.Material? = _current
         private set
 
-    var config = Monet.Config.default
+    var config = Monet.Config.Default
         private set
 
     infix fun scheme(color:Color):MonetWindow {
@@ -112,7 +112,7 @@ actual fun systemIsDarkTheme(): Boolean = MonetWindow.local.current.isDarkTheme(
 @Deprecated("use MonetWindow.local.current", ReplaceWith("MonetWindow.local.current.color"))
 actual fun systemSeekColor(): Srgb? = DwmApi.instance.systemSeekColor()?.let { Srgb(it) }
 @Deprecated("use MonetWindow.local.current", ReplaceWith("MonetWindow.local.current.config"))
-actual fun monetConfig(): Monet.Config = Monet.Config.default
+actual fun monetConfig(): Monet.Config = Monet.Config.Default
 
 
 @Suppress("FunctionName")

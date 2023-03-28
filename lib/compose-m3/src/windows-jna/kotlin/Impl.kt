@@ -38,4 +38,4 @@ actual fun systemSeekColor(): Srgb?
     = DwmApi.instance.systemSeekColor()?.let(::Srgb)
 
 actual fun monetConfig(): Monet.Config
-    = Monet.Config.default
+    = Monet.Config.Default

@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="compose-m3-window-styler-0.0.1-alpha02">
+    <output-path>$PROJECT_DIR$/compose-m3/build/libs</output-path>
+    <root id="archive" name="compose-m3-window-styler-0.0.1-alpha02.jar">
+      <element id="module-output" name="monet-kdrag0n.compose-m3.window-stylerMain" />
+    </root>
+  </artifact>
+</component>

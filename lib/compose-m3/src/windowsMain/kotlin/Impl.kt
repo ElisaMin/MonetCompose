@@ -67,4 +67,4 @@ actual fun systemSeekColor(): Srgb? {
     return null
 }
 actual fun monetConfig(): Monet.Config
-    = Monet.Config.default
+    = Monet.Config.Default
