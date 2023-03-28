@@ -38,7 +38,7 @@ class MonetWindow private constructor(val window: Window = Frame()) {
         @Composable
         fun Monet.of(block:@Composable ()->Unit ) = MonetWindow(self).invoke(block)
     }
-    var color:Srgb = Srgb(0x01579B)
+    var color:Srgb by mutableStateOf(Srgb(0x01579B))
         private set
 
     var current:ColorScheme.Material? = _current
@@ -87,7 +87,8 @@ class MonetWindow private constructor(val window: Window = Frame()) {
         content: @Composable ()->Unit
     ) {
         CompositionLocalProvider(
-            local provides this
+            local provides this,
+            LocalSeekColorProvider provides color,
         ) {
             content()
         }
@@ -107,11 +108,8 @@ fun ColorScheme.Material.getWindowFrame(
 )
 
 @Composable
-@Deprecated("use MonetWindow.local.current", ReplaceWith("MonetWindow.local.current.isDarkTheme()"))
 actual fun systemIsDarkTheme(): Boolean = MonetWindow.local.current.isDarkTheme()
-@Deprecated("use MonetWindow.local.current", ReplaceWith("MonetWindow.local.current.color"))
 actual fun systemSeekColor(): Srgb? = DwmApi.instance.systemSeekColor()?.let { Srgb(it) }
-@Deprecated("use MonetWindow.local.current", ReplaceWith("MonetWindow.local.current.config"))
 actual fun monetConfig(): Monet.Config = Monet.Config.Default
 
 
