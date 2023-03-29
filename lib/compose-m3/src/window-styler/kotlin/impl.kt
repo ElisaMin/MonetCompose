@@ -37,7 +37,7 @@ class MonetWindow private constructor(val window: Window = Frame()) {
         context (Window)
         @Composable
         inline fun Monet.of(crossinline block:@Composable MonetWindow.()->Unit ) {
-            Monet.of().run(block)
+            block(Monet.of())
         }
     }
     var color:Srgb by mutableStateOf(Srgb(0x01579B))
