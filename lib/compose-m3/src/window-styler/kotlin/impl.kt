@@ -36,7 +36,9 @@ class MonetWindow private constructor(val window: Window = Frame()) {
         context (Window) fun Monet.of() = MonetWindow(self)
         context (Window)
         @Composable
-        fun Monet.of(block:@Composable ()->Unit ) = MonetWindow(self).invoke(block)
+        inline fun Monet.of(crossinline block:@Composable MonetWindow.()->Unit ) {
+            Monet.of().run(block)
+        }
     }
     var color:Srgb by mutableStateOf(Srgb(0x01579B))
         private set
@@ -84,13 +86,14 @@ class MonetWindow private constructor(val window: Window = Frame()) {
         this.config = config(this.config)
     }
     @Composable operator fun invoke(
-        content: @Composable ()->Unit
+        content: @Composable (MonetWindow)->Unit
     ) {
         CompositionLocalProvider(
             local provides this,
             LocalSeekColorProvider provides color,
         ) {
-            content()
+            remember(color,windowStyler) { this }
+            content(this)
         }
     }
     init {
