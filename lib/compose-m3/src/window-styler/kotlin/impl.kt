@@ -1,10 +1,7 @@
 package me.heizi.compose.ext.monet.common
 
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.window.WindowScope
 import com.mayakapps.compose.windowstyler.WindowCornerPreference
 import com.mayakapps.compose.windowstyler.WindowFrameStyle
@@ -13,7 +10,6 @@ import com.sun.jna.Library
 import com.sun.jna.Native
 import com.sun.jna.platform.win32.WinDef
 import com.sun.jna.platform.win32.WinNT
-import dev.kdrag0n.colorkt.rgb.Srgb
 import dev.kdrag0n.monet.theme.ColorScheme
 import dev.kdrag0n.monet.theme.Monet
 import me.heizi.compose.ext.monet.common.DwmApi.Companion.systemSeekColor
@@ -25,6 +21,11 @@ import java.awt.Window
 //  - window frame covert from color scheme
 //  - jna calling system color in windows and more or something
 
+/**
+ * Composable function that creates a Monet window.
+ * It provides a MonetWindow instance to its content via CompositionLocalProvider.
+ * @param block the composable block to be executed.
+ */
 @Composable
 @Suppress("unused", "FunctionName")
 inline fun WindowScope.Monet(crossinline block: @Composable MonetWindow.() -> Unit) {
@@ -33,12 +34,6 @@ inline fun WindowScope.Monet(crossinline block: @Composable MonetWindow.() -> Un
     }
 }
 
-
-actual val kdrag0nProvider: Kdrag0nProvider
-    @Composable
-    get() {
-        return MonetWindow.local.current
-    }
 @Suppress("unused","MemberVisibilityCanBePrivate")
 class MonetWindow private constructor(window: Window = Frame()):Kdrag0nProvider {
 
@@ -49,6 +44,11 @@ class MonetWindow private constructor(window: Window = Frame()):Kdrag0nProvider 
         val local = staticCompositionLocalOf {
             Default
         }
+        /**
+         * Composable function that creates a MonetWindow instance and provides it to its content via CompositionLocalProvider.
+         *
+         * @param block the composable block to be executed.
+         */
         context(WindowScope)
         @Composable
         fun with(block: @Composable MonetWindow.() -> Unit) {
@@ -112,3 +112,8 @@ private interface DwmApi : Library {
     }
     fun DwmGetColorizationColor(pcrColorization: WinDef.DWORDByReference, pfOpaqueBlend: WinDef.BOOLByReference): WinNT.HRESULT
 }
+actual val kdrag0nProvider: Kdrag0nProvider
+    @Composable
+    get() {
+        return MonetWindow.local.current
+    }
