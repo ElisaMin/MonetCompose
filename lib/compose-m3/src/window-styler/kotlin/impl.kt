@@ -3,13 +3,16 @@ package me.heizi.compose.ext.monet.common
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.window.WindowScope
+import com.mayakapps.compose.windowstyler.WindowBackdrop
 import com.mayakapps.compose.windowstyler.WindowCornerPreference
 import com.mayakapps.compose.windowstyler.WindowFrameStyle
 import com.mayakapps.compose.windowstyler.windows.WindowsWindowStyleManager
 import com.sun.jna.Library
 import com.sun.jna.Native
+import com.sun.jna.platform.win32.Advapi32Util
 import com.sun.jna.platform.win32.WinDef
 import com.sun.jna.platform.win32.WinNT
+import com.sun.jna.platform.win32.WinReg
 import dev.kdrag0n.monet.theme.ColorScheme
 import dev.kdrag0n.monet.theme.Monet
 import me.heizi.compose.ext.monet.common.DwmApi.Companion.systemSeekColor
@@ -34,9 +37,21 @@ inline fun WindowScope.Monet(crossinline block: @Composable MonetWindow.() -> Un
 }
 
 @Suppress("unused","MemberVisibilityCanBePrivate")
-class MonetWindow (window: Window):Kdrag0nProvider {
+class MonetWindow private constructor(window: Window):Kdrag0nProvider {
 
     companion object {
+        val systemColor by lazy {
+            runCatching {
+                DwmApi.instance.systemSeekColor()
+            }.getOrNull()
+        }
+        val isDark by lazy {
+            runCatching {
+                Advapi32Util.registryGetIntValue(WinReg.HKEY_CURRENT_USER, "SOFTWARE\\Microsoft\\Windows\\DWM", "AppsUseLightTheme")
+            }.getOrElse { runCatching {
+                Advapi32Util.registryGetIntValue(WinReg.HKEY_CURRENT_USER, "Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize", "AppsUseLightTheme")
+            }.getOrDefault(1) } == 0
+        }
         val local: ProvidableCompositionLocal<MonetWindow> = staticCompositionLocalOf {
             throw NotImplementedError("MonetWindow is not provided")
         }
@@ -50,24 +65,23 @@ class MonetWindow (window: Window):Kdrag0nProvider {
         fun with(block: @Composable MonetWindow.() -> Unit) {
             val monet by remember { mutableStateOf(MonetWindow(window)) }
             CompositionLocalProvider(local provides monet) {
-                monet.block()
+                // fixme
+                Kdrag0nTheme(seekColor = monet.color) {
+                    monet.block()
+                }
             }
         }
     }
     var color by mutableStateOf(Color(0x01579B))
-    init {
-        updateColorBySystemAccent()
-    }
-    //    @Composable
+//    @Composable
+    // fixme update failed
     override fun systemColor(): Color = color
-
-    private val _windowStyler = WindowsWindowStyleManager(
-        window = window,
-    )
     override var config = Monet.Config.Default
         private set
     private var theScheme: ColorScheme.Material? by mutableStateOf(null)
-
+    private val _windowStyler = WindowsWindowStyleManager(
+        window = window,
+    )
     override fun getScheme(
         color: Color, dark: Boolean, config: Monet.Config
     ): ColorScheme.Material {
@@ -76,10 +90,21 @@ class MonetWindow (window: Window):Kdrag0nProvider {
     val windowStyler get() = _windowStyler.apply {
         (theScheme?:getScheme()).getWindowFrame().let { this.frameStyle = it }
     }
+
     override fun isSystemDarkTheme(): Boolean
-            = windowStyler.isDarkTheme
-    fun updateColorBySystemAccent() {
-        DwmApi.instance.systemSeekColor()?.let { color = Color(it) }
+        = isDark
+    init {
+        updateColorBySystemAccent()
+    }
+    fun updateColorBySystemAccent(
+        backdrop: WindowBackdrop = WindowBackdrop.Default,
+    ) {
+        if (color == Color(0x01579B))
+            color =  Color(systemColor?:0x01579B)
+        getScheme()
+        windowStyler.isDarkTheme = isDark
+        windowStyler.backdropType = backdrop
+        systemColor
     }
     fun config(config: (Monet.Config)-> Monet.Config) = apply {
         this.config = config(this.config)

@@ -2,7 +2,10 @@
 package me.heizi.compose.ext.monet.common
 
 import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import dev.kdrag0n.colorkt.rgb.Rgb
@@ -42,12 +45,16 @@ fun Kdrag0nTheme(
     content: @Composable () -> Unit
 ) {
     val isDark by remember { mutableStateOf(provider.isSystemDarkTheme()) }
-    var scheme = remember(seekColor,isDark) {
-        if (isDark) darkColorScheme() else lightColorScheme()
+    //fixme
+    println(seekColor)
+    val scheme = remember(seekColor,isDark) {
+        (if (isDark) darkColorScheme() else lightColorScheme())
+            .modifyFrom(provider.getScheme(seekColor,isDark,provider.config))
     }
-    LaunchedEffect(isDark,seekColor,provider.config) {
-        scheme = scheme.modifyFrom(provider.getScheme(seekColor,isDark,provider.config))
-    }
+//    scheme =
+//    LaunchedEffect(isDark,seekColor,provider.config) {
+//
+//    }
     MaterialTheme(
         shapes = shapes,
         typography = typography,
