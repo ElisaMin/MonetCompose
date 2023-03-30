@@ -2,10 +2,7 @@
 
 package me.heizi.compose.ext.monet.common
 
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
-import dev.kdrag0n.colorkt.rgb.Srgb
 import dev.kdrag0n.monet.theme.Monet
 
 
@@ -21,8 +18,8 @@ actual val kdrag0nProvider: Kdrag0nProvider = object : Kdrag0nProvider {
             process.waitFor().equals(0) to
                     process.inputStream.use { it.bufferedReader(charset("gbk"))
                         .readText()
-                        .splitToSequence(" ", "\n",)
-                        .filter { it.isNotBlank() }
+                        .splitToSequence(" ", "\n")
+                        .filter { s -> s.isNotBlank() }
                         .last()
                     } .also { process.destroy() }
         }

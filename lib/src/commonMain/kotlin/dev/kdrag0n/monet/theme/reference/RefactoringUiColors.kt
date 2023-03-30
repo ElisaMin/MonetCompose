@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package dev.kdrag0n.monet.theme.reference
 
 import dev.kdrag0n.colorkt.rgb.Srgb

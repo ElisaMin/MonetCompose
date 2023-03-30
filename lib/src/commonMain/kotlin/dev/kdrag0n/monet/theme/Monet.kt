@@ -19,9 +19,6 @@ object Monet {
         companion object {
             @Suppress("MemberVisibilityCanBePrivate")
             val Default = Config()
-            @get:JvmName("defaultDeprecated")
-            @Deprecated("Use Default instead", ReplaceWith("Default"))
-            val default get() =  Default
         }
 
         constructor(

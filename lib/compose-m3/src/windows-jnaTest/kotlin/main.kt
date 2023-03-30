@@ -1,16 +1,15 @@
-import dev.kdrag0n.monet.theme.ColorScheme
 import me.heizi.compose.ext.monet.common.kdrag0nProvider
 import org.junit.Test
 
 
 class IMPL {
-    val provider = kdrag0nProvider
+    private val provider = kdrag0nProvider
     private var timeContainer = 0L
     fun time(name:String?) = System.currentTimeMillis().also {
         if (name !=null) println("Time: ${it - timeContainer} ! $name")
         timeContainer = it
     }
-    inline fun time(name: String = "",crossinline ignoredBlock:()->Unit) {
+    private inline fun time(name: String = "", crossinline ignoredBlock:()->Unit) {
         println("==================$name======================")
         time(null)
         ignoredBlock()

@@ -1,4 +1,4 @@
-@file:Suppress("unused", "DuplicatedCode")
+@file:Suppress("unused", "DuplicatedCode", "FunctionName")
 package me.heizi.compose.ext.monet.common
 
 import androidx.compose.material3.*
@@ -211,7 +211,7 @@ fun dev.kdrag0n.colorkt.Color.toComposeColor(): Color = when (this) {
 @Deprecated("subsupported", ReplaceWith("Kdrag0nProvider"),DeprecationLevel.ERROR)
 internal fun systemIsDarkTheme(): Boolean = TODO()
 @Deprecated("subsupported",ReplaceWith("Kdrag0nProvider"),DeprecationLevel.ERROR)
-fun systemSeekColor(): Kolor? = TODO()
+fun systemSeekColor(): Kolor = TODO()
 @Deprecated("subsupported",ReplaceWith("Kdrag0nProvider"),DeprecationLevel.ERROR)
 fun monetConfig(): Monet.Config {
     TODO()

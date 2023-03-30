@@ -1,3 +1,5 @@
+@file:Suppress("FunctionName", "FunctionName")
+
 package me.heizi.compose.ext.monet.common
 
 import androidx.compose.ui.graphics.Color
@@ -7,9 +9,7 @@ import com.sun.jna.platform.win32.Advapi32Util
 import com.sun.jna.platform.win32.WinDef
 import com.sun.jna.platform.win32.WinNT
 import com.sun.jna.platform.win32.WinReg
-import dev.kdrag0n.colorkt.rgb.Srgb
 import dev.kdrag0n.monet.theme.Monet
-import org.jetbrains.skiko.currentSystemTheme
 
 private interface DwmApi : Library {
     companion object {

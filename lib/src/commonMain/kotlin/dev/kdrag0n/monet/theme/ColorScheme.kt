@@ -124,7 +124,7 @@ interface ColorScheme {
                 }
 
             operator fun get(
-                seedColor: Color, config: Monet.Config = Monet.Config.default
+                seedColor: Color, config: Monet.Config = Monet.Config.Default
             ) = with(config) {
                 invoke(
                     targets = Target.MaterialYou(

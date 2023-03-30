@@ -1,4 +1,4 @@
-@file:Suppress("NOTHING_TO_INLINE", "TestFunctionName")
+@file:Suppress("NOTHING_TO_INLINE", "TestFunctionName", "unused", "MemberVisibilityCanBePrivate", "FunctionName", "SpellCheckingInspection", )
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
