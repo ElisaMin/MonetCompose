@@ -13,7 +13,6 @@ import com.sun.jna.platform.win32.WinNT
 import dev.kdrag0n.monet.theme.ColorScheme
 import dev.kdrag0n.monet.theme.Monet
 import me.heizi.compose.ext.monet.common.DwmApi.Companion.systemSeekColor
-import java.awt.Frame
 import java.awt.Window
 
 // function expect list:
@@ -35,14 +34,11 @@ inline fun WindowScope.Monet(crossinline block: @Composable MonetWindow.() -> Un
 }
 
 @Suppress("unused","MemberVisibilityCanBePrivate")
-class MonetWindow private constructor(window: Window = Frame()):Kdrag0nProvider {
+class MonetWindow (window: Window):Kdrag0nProvider {
 
     companion object {
-        val Default by lazy {
-            MonetWindow()
-        }
-        val local = staticCompositionLocalOf {
-            Default
+        val local: ProvidableCompositionLocal<MonetWindow> = staticCompositionLocalOf {
+            throw NotImplementedError("MonetWindow is not provided")
         }
         /**
          * Composable function that creates a MonetWindow instance and provides it to its content via CompositionLocalProvider.
@@ -52,7 +48,7 @@ class MonetWindow private constructor(window: Window = Frame()):Kdrag0nProvider 
         context(WindowScope)
         @Composable
         fun with(block: @Composable MonetWindow.() -> Unit) {
-            val monet by remember { mutableStateOf(MonetWindow()) }
+            val monet by remember { mutableStateOf(MonetWindow(window)) }
             CompositionLocalProvider(local provides monet) {
                 monet.block()
             }

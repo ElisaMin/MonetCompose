@@ -207,12 +207,3 @@ fun dev.kdrag0n.colorkt.Color.toComposeColor(): Color = when (this) {
     is Rgb -> Color(r.toFloat(), g.toFloat(),b.toFloat())
     else -> throw NotImplementedError("Not implemented for ${this::class.simpleName}")
 }
-@Composable
-@Deprecated("subsupported", ReplaceWith("Kdrag0nProvider"),DeprecationLevel.ERROR)
-internal fun systemIsDarkTheme(): Boolean = TODO()
-@Deprecated("subsupported",ReplaceWith("Kdrag0nProvider"),DeprecationLevel.ERROR)
-fun systemSeekColor(): Kolor = TODO()
-@Deprecated("subsupported",ReplaceWith("Kdrag0nProvider"),DeprecationLevel.ERROR)
-fun monetConfig(): Monet.Config {
-    TODO()
-}
