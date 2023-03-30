@@ -1,8 +1,5 @@
 import dev.kdrag0n.monet.theme.ColorScheme
 import me.heizi.compose.ext.monet.common.kdrag0nProvider
-import me.heizi.compose.ext.monet.common.lightM3Scheme
-import me.heizi.compose.ext.monet.common.systemIsDarkTheme
-import me.heizi.compose.ext.monet.common.systemSeekColor
 import org.junit.Test
 
 
@@ -28,24 +25,27 @@ class IMPL {
     }
     @Test
     fun systemDarkMode() = time("dark") {
-        println(systemIsDarkTheme())
+        println(kdrag0nProvider.isSystemDarkTheme())
     }
-//    @Test
-//    fun systemColorR() = time("reg") {
-//        println(systemSeekColorReg()?.let(::Srgb)?.toHex())
-//    }
     @Test
     fun systemColor() = time("color") {
-        println(systemSeekColor()?.toHex())
+        println(kdrag0nProvider.systemColor())
     }
     @Test
     fun preload() = time("preload") {
-        println(systemSeekColor()?.toHex())
+        println(provider.systemColor())
         time("dark")
-        println(systemIsDarkTheme())
+        println(provider.isSystemDarkTheme())
+        time("loaded")
+        println(provider.isSystemDarkTheme())
     }
     @Test
     fun seekColorToScheme() = time("seekColorToScheme") {
-        ColorScheme.Dynamic[systemSeekColor()!!].lightM3Scheme()
+        val scheme = kdrag0nProvider.getScheme()
+        time("scheme")
+        scheme::class.java.declaredFields.forEach {
+            it.isAccessible = true
+            println("${it.name} = ${it.get(scheme)}")
+        }
     }
 }

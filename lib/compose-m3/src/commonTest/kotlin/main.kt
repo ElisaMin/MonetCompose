@@ -11,8 +11,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import me.heizi.compose.ext.monet.common.Kdrag0nTheme
-import me.heizi.compose.ext.monet.common.systemSeekColor
-import me.heizi.compose.ext.monet.common.toComposeColor
+import me.heizi.compose.ext.monet.common.kdrag0nProvider
 
 
 @Suppress("SameParameterValue")
@@ -63,7 +62,7 @@ fun TestScreen() {
 //                    }
                 item {
                     ColorBlock(
-                        systemSeekColor()!!.toComposeColor(),"Seek Color")
+                        kdrag0nProvider.systemColor()!!,"Seek Color")
                 }
             }
         }

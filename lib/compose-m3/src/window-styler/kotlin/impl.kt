@@ -59,7 +59,7 @@ class MonetWindow private constructor(window: Window = Frame()):Kdrag0nProvider 
     init {
         updateColorBySystemAccent()
     }
-//    @Composable
+    //    @Composable
     override fun systemColor(): Color = color
 
     private val _windowStyler = WindowsWindowStyleManager(
