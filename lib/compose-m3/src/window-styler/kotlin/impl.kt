@@ -33,9 +33,12 @@ inline fun WindowScope.Monet(crossinline block: @Composable MonetWindow.() -> Un
     }
 }
 
-@get:Composable
+
 actual val kdrag0nProvider: Kdrag0nProvider
-    get() = MonetWindow.local.current
+    @Composable
+    get() {
+        return MonetWindow.local.current
+    }
 @Suppress("unused","MemberVisibilityCanBePrivate")
 class MonetWindow private constructor(window: Window = Frame()):Kdrag0nProvider {
 
