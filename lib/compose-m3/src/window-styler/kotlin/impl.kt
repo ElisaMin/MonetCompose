@@ -1,8 +1,11 @@
 package me.heizi.compose.ext.monet.common
 
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.window.WindowScope
 import com.mayakapps.compose.windowstyler.WindowCornerPreference
 import com.mayakapps.compose.windowstyler.WindowFrameStyle
 import com.mayakapps.compose.windowstyler.windows.WindowsWindowStyleManager
@@ -22,8 +25,19 @@ import java.awt.Window
 //  - window frame covert from color scheme
 //  - jna calling system color in windows and more or something
 
+@Composable
+@Suppress("unused", "FunctionName")
+inline fun WindowScope.Monet(crossinline block: @Composable MonetWindow.() -> Unit) {
+    MonetWindow.with {
+        block()
+    }
+}
+
+@get:Composable
+actual val kdrag0nProvider: Kdrag0nProvider
+    get() = MonetWindow.local.current
 @Suppress("unused","MemberVisibilityCanBePrivate")
-class MonetWindow private constructor(val window: Window = Frame()) {
+class MonetWindow private constructor(window: Window = Frame()):Kdrag0nProvider {
 
     companion object {
         val Default by lazy {
@@ -32,72 +46,44 @@ class MonetWindow private constructor(val window: Window = Frame()) {
         val local = staticCompositionLocalOf {
             Default
         }
-        private inline val Window.self get() = this
-        context (Window) fun Monet.of() = MonetWindow(self)
-        context (Window)
+        context(WindowScope)
         @Composable
-        inline fun Monet.of(crossinline block:@Composable MonetWindow.()->Unit ) {
-            block(Monet.of())
+        fun with(block: @Composable MonetWindow.() -> Unit) {
+            val monet by remember { mutableStateOf(MonetWindow()) }
+            CompositionLocalProvider(local provides monet) {
+                monet.block()
+            }
         }
     }
-    var color:Srgb by mutableStateOf(Srgb(0x01579B))
-        private set
-
-    var current:ColorScheme.Material? = _current
-        private set
-
-    var config = Monet.Config.Default
-        private set
-
-    infix fun scheme(color:Color):MonetWindow {
-        this.color = Srgb(color.toArgb())
-        current = _current
-        return this
+    var color by mutableStateOf(Color(0x01579B))
+    init {
+        updateColorBySystemAccent()
     }
+//    @Composable
+    override fun systemColor(): Color = color
 
-    private val windowStyler = WindowsWindowStyleManager(
-        window = this.window,
+    private val _windowStyler = WindowsWindowStyleManager(
+        window = window,
     )
+    override var config = Monet.Config.Default
+        private set
+    private var theScheme: ColorScheme.Material? by mutableStateOf(null)
 
-    private val _current get() = ColorScheme.Dynamic[color,config].run {
-        if (windowStyler.isDarkTheme) materialDark() else materialLight()
+    override fun getScheme(
+        color: Color, dark: Boolean, config: Monet.Config
+    ): ColorScheme.Material {
+        return super.getScheme(color, dark, config).also { theScheme = it }
     }
-
-    fun clean() {
-        current = null
+    val windowStyler get() = _windowStyler.apply {
+        (theScheme?:getScheme()).getWindowFrame().let { this.frameStyle = it }
     }
-    fun toStyler(
-        cornerPreference: WindowCornerPreference = WindowCornerPreference.DEFAULT,
-    ) = windowStyler.apply {
-        current?.getWindowFrame(cornerPreference)?.let { this.frameStyle = it }
-        clean()
+    override fun isSystemDarkTheme(): Boolean
+            = windowStyler.isDarkTheme
+    fun updateColorBySystemAccent() {
+        DwmApi.instance.systemSeekColor()?.let { color = Color(it) }
     }
-    fun updateScheme() {
-        current = _current
-    }
-    fun updateSystemColor() {
-        clean()
-        DwmApi.instance.systemSeekColor()?.let { color = Srgb(it) }
-        scheme(Color(color.toRgb8()))
-        updateScheme()
-    }
-    fun isDarkTheme() = windowStyler.isDarkTheme
     fun config(config: (Monet.Config)-> Monet.Config) = apply {
         this.config = config(this.config)
-    }
-    @Composable operator fun invoke(
-        content: @Composable (MonetWindow)->Unit
-    ) {
-        CompositionLocalProvider(
-            local provides this,
-            LocalSeekColorProvider provides color,
-        ) {
-            remember(color,windowStyler) { this }
-            content(this)
-        }
-    }
-    init {
-        updateSystemColor()
     }
 }
 
@@ -109,12 +95,6 @@ fun ColorScheme.Material.getWindowFrame(
     captionColor = onSurface.toComposeColor(),
     cornerPreference = cornerPreference,
 )
-
-@Composable
-actual fun systemIsDarkTheme(): Boolean = MonetWindow.local.current.isDarkTheme()
-actual fun systemSeekColor(): Srgb? = DwmApi.instance.systemSeekColor()?.let { Srgb(it) }
-actual fun monetConfig(): Monet.Config = Monet.Config.Default
-
 
 @Suppress("FunctionName")
 private interface DwmApi : Library {

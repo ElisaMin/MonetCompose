@@ -4,25 +4,50 @@ package me.heizi.compose.ext.monet.common
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import dev.kdrag0n.colorkt.rgb.Rgb
 import dev.kdrag0n.monet.theme.ColorScheme.Dynamic
 import dev.kdrag0n.monet.theme.Monet
 import dev.kdrag0n.colorkt.rgb.Srgb as Kolor
 import dev.kdrag0n.monet.theme.ColorScheme as Kdrag0nColorScheme
 
-@Composable
-expect fun systemIsDarkTheme(): Boolean
-expect fun systemSeekColor(): Kolor?
-expect fun monetConfig(): Monet.Config
+expect val kdrag0nProvider:Kdrag0nProvider
+//private inline val provider get() = kdrag0nProvider
 
+interface Kdrag0nProvider {
+    fun isSystemDarkTheme():Boolean
+    fun systemColor():Color?
+    val config:Monet.Config
+    fun getScheme(
+        color:Color = systemColor() ?: Color(0x01579B),
+        dark:Boolean = isSystemDarkTheme(),
+        config: Monet.Config = this.config
+    ) = Dynamic[Kolor(color.toArgb()),config].let {
+        if (dark) it.materialDark() else it.materialLight()
+    }
+}
+
+@Composable
+fun rememberProvider(): Kdrag0nProvider {
+    val state by mutableStateOf(kdrag0nProvider)
+    return remember { state }
+}
 
 @Composable
 fun Kdrag0nTheme(
-    scheme: ColorScheme = kdrag0nColorScheme,
+    provider: Kdrag0nProvider = rememberProvider(),
+    seekColor:Color = provider.systemColor() ?: Color(0x01579B),
     shapes: Shapes = MaterialTheme.shapes,
     typography: Typography = MaterialTheme.typography,
     content: @Composable () -> Unit
 ) {
+    val isDark by remember { mutableStateOf(provider.isSystemDarkTheme()) }
+    var scheme = remember(seekColor,isDark) {
+        if (isDark) darkColorScheme() else lightColorScheme()
+    }
+    LaunchedEffect(isDark,seekColor,provider.config) {
+        scheme = scheme.modifyFrom(provider.getScheme(seekColor,isDark,provider.config))
+    }
     MaterialTheme(
         shapes = shapes,
         typography = typography,
@@ -31,33 +56,89 @@ fun Kdrag0nTheme(
     )
 }
 
-//create a seek color provider
-val LocalSeekColorProvider: ProvidableCompositionLocal<Rgb> = staticCompositionLocalOf {
-    systemSeekColor() ?: Kolor(0x01579B)
+
+//@Suppress("NOTHING_TO_INLINE")
+//@Deprecated("not best but use it", ReplaceWith("Kdrag0nProvider"),DeprecationLevel.HIDDEN)
+//inline fun Kdrag0nColorScheme.Material.toM3Scheme(isDark:Boolean)
+//    = if (isDark) this.toM3Scheme(darkColorScheme()) else toM3Scheme(lightColorScheme())
+
+fun ColorScheme.modifyFrom(kdrag0nScheme:Kdrag0nColorScheme.Material) = kdrag0nScheme.run {
+    copy(
+        primary = primary.toComposeColor(),
+        onPrimary = onPrimary.toComposeColor(),
+        primaryContainer = primaryContainer.toComposeColor(),
+        onPrimaryContainer = onPrimaryContainer.toComposeColor(),
+
+        secondary = secondary.toComposeColor(),
+        onSecondary = onSecondary.toComposeColor(),
+        secondaryContainer = secondaryContainer.toComposeColor(),
+        onSecondaryContainer = onSecondaryContainer.toComposeColor(),
+
+        tertiary = tertiary.toComposeColor(),
+        onTertiary = onTertiary.toComposeColor(),
+        tertiaryContainer = tertiaryContainer.toComposeColor(),
+        onTertiaryContainer = onTertiaryContainer.toComposeColor(),
+
+        background = background.toComposeColor(),
+        onBackground = onBackground.toComposeColor(),
+
+        surface = surface.toComposeColor(),
+        onSurface = onSurface.toComposeColor(),
+        surfaceVariant = surfaceVariant.toComposeColor(),
+        onSurfaceVariant = onSurfaceVariant.toComposeColor(),
+
+
+        outline = outline.toComposeColor(),
+        inversePrimary = inversePrimary.toComposeColor(),
+        inverseSurface = inverseSurface.toComposeColor(),
+        inverseOnSurface = inverseOnSurface.toComposeColor(),
+    )
 }
+@Suppress("NOTHING_TO_INLINE")
+@Deprecated("not best but use it", ReplaceWith("lightM3Scheme"),DeprecationLevel.HIDDEN)
+inline fun Kdrag0nColorScheme.Material.toM3Scheme(
+    baseScheme:ColorScheme = lightColorScheme()
+) = ColorScheme(
+    primary = primary.toComposeColor(),
+    onPrimary = onPrimary.toComposeColor(),
+    primaryContainer = primaryContainer.toComposeColor(),
+    onPrimaryContainer = onPrimaryContainer.toComposeColor(),
 
-val kdrag0nColorScheme: ColorScheme
-    @Composable get() =
-        LocalSeekColorProvider.current.let { color ->
-            Dynamic[color].let { scheme ->
-                if (systemIsDarkTheme()) scheme.darkM3Scheme() else scheme.lightM3Scheme()
-            }
+    secondary = secondary.toComposeColor(),
+    onSecondary = onSecondary.toComposeColor(),
+    secondaryContainer = secondaryContainer.toComposeColor(),
+    onSecondaryContainer = onSecondaryContainer.toComposeColor(),
 
-        }
+    tertiary = tertiary.toComposeColor(),
+    onTertiary = onTertiary.toComposeColor(),
+    tertiaryContainer = tertiaryContainer.toComposeColor(),
+    onTertiaryContainer = onTertiaryContainer.toComposeColor(),
 
-@Composable
-fun currentKdrag0nColorState(): State<Kdrag0nColorScheme> {
-    val config by remember { mutableStateOf(monetConfig()) }
-    return mutableStateOf(Dynamic[LocalSeekColorProvider.current, config])
-}
+    background = background.toComposeColor(),
+    onBackground = onBackground.toComposeColor(),
 
-@Composable
-fun rememberKdrag0nColorState(): Kdrag0nColorScheme = currentKdrag0nColorState().let {
-    remember(LocalSeekColorProvider.current) { it }.value
-}
+    surface = surface.toComposeColor(),
+    onSurface = onSurface.toComposeColor(),
+    surfaceVariant = surfaceVariant.toComposeColor(),
+    onSurfaceVariant = onSurfaceVariant.toComposeColor(),
 
 
-fun Kdrag0nColorScheme.lightM3Scheme(): ColorScheme = materialLight().run {
+    outline = outline.toComposeColor(),
+    inversePrimary = inversePrimary.toComposeColor(),
+    inverseSurface = inverseSurface.toComposeColor(),
+    inverseOnSurface = inverseOnSurface.toComposeColor(),
+
+    // base
+    outlineVariant = baseScheme.outlineVariant,
+    scrim = baseScheme.scrim,
+    surfaceTint = baseScheme.surfaceTint,
+    error = baseScheme.error,
+    onError = baseScheme.onError,
+    errorContainer = baseScheme.errorContainer,
+    onErrorContainer = baseScheme.onErrorContainer,
+)
+
+fun Kdrag0nColorScheme.Material.lightM3Scheme(): ColorScheme = run {
     lightColorScheme(
         primary = primary.toComposeColor(),
         onPrimary = onPrimary.toComposeColor(),
@@ -89,7 +170,7 @@ fun Kdrag0nColorScheme.lightM3Scheme(): ColorScheme = materialLight().run {
         inverseOnSurface = inverseOnSurface.toComposeColor(),
     )
 }
-fun Kdrag0nColorScheme.darkM3Scheme(): ColorScheme = materialDark().run {
+fun Kdrag0nColorScheme.Material.darkM3Scheme(): ColorScheme = run {
     lightColorScheme(
         primary = primary.toComposeColor(),
         onPrimary = onPrimary.toComposeColor(),
@@ -125,4 +206,13 @@ fun Kdrag0nColorScheme.darkM3Scheme(): ColorScheme = materialDark().run {
 fun dev.kdrag0n.colorkt.Color.toComposeColor(): Color = when (this) {
     is Rgb -> Color(r.toFloat(), g.toFloat(),b.toFloat())
     else -> throw NotImplementedError("Not implemented for ${this::class.simpleName}")
+}
+@Composable
+@Deprecated("subsupported", ReplaceWith("Kdrag0nProvider"),DeprecationLevel.ERROR)
+internal fun systemIsDarkTheme(): Boolean = TODO()
+@Deprecated("subsupported",ReplaceWith("Kdrag0nProvider"),DeprecationLevel.ERROR)
+fun systemSeekColor(): Kolor? = TODO()
+@Deprecated("subsupported",ReplaceWith("Kdrag0nProvider"),DeprecationLevel.ERROR)
+fun monetConfig(): Monet.Config {
+    TODO()
 }

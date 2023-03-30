@@ -1,4 +1,5 @@
 import dev.kdrag0n.monet.theme.ColorScheme
+import me.heizi.compose.ext.monet.common.kdrag0nProvider
 import me.heizi.compose.ext.monet.common.lightM3Scheme
 import me.heizi.compose.ext.monet.common.systemIsDarkTheme
 import me.heizi.compose.ext.monet.common.systemSeekColor
@@ -6,6 +7,7 @@ import org.junit.Test
 
 
 class IMPL {
+    val provider = kdrag0nProvider
     private var timeContainer = 0L
     fun time(name:String?) = System.currentTimeMillis().also {
         if (name !=null) println("Time: ${it - timeContainer} ! $name")
