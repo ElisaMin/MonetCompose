@@ -35,7 +35,7 @@ actual val kdrag0nProvider: Kdrag0nProvider = object : Kdrag0nProvider {
         // windows 10 HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\DWM\AppsUseLightTheme
         fun getValue(pair: Pair<Boolean,String>):Int? = pair.let { (isSuccess, value) ->
             if (!isSuccess) return null
-            value.removePrefix("0x").trim().toIntOrNull().also(::println)
+            value.removePrefix("0x").trim().toIntOrNull()
         }
         return (getValue(regGet("HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize","AppsUseLightTheme"))
             ?:  getValue(regGet(DWM,"AppsUseLightTheme"))
