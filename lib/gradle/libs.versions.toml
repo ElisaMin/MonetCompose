@@ -1,5 +1,5 @@
 [versions]
-kdrag0n-monet = "0.0.1-alpha04"
+kdrag0n-monet = "0.0.1-alpha05"
 
 kotlin-lang="1.9.10"
 kotlin-color = "1.0.5"
