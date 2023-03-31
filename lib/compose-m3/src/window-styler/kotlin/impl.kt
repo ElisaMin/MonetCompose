@@ -1,5 +1,8 @@
 package me.heizi.compose.ext.monet.common
 
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.window.WindowScope
@@ -35,7 +38,7 @@ inline fun WindowScope.Monet(crossinline block: @Composable MonetWindow.() -> Un
         block()
     }
 }
-
+@Stable
 @Suppress("unused","MemberVisibilityCanBePrivate")
 class MonetWindow private constructor(window: Window):Kdrag0nProvider {
 
@@ -63,25 +66,31 @@ class MonetWindow private constructor(window: Window):Kdrag0nProvider {
         context(WindowScope)
         @Composable
         fun with(block: @Composable MonetWindow.() -> Unit) {
-            val monet by remember { mutableStateOf(MonetWindow(window)) }
+            val monet by remember(window) { mutableStateOf(MonetWindow(window)) }
             CompositionLocalProvider(local provides monet) {
-                // fixme
-                Kdrag0nTheme(seekColor = monet.color) {
-                    monet.block()
+                val current = local.current
+                val theSeek = remember(current.color) { current.color }
+                // use lazy , issue or pr if you want dynamic
+                var baseScheme by remember(isDark) { mutableStateOf(if (isDark) darkColorScheme() else lightColorScheme()) }
+                LaunchedEffect(theSeek,current.config) {
+                    baseScheme = baseScheme.modifyFrom(current.getScheme())
+                }
+                MaterialTheme(colorScheme = baseScheme,) {
+                    block(current)
                 }
             }
         }
     }
+
     var color by mutableStateOf(Color(0x01579B))
-//    @Composable
-    // fixme update failed
     override fun systemColor(): Color = color
+
     override var config = Monet.Config.Default
         private set
+
+    private val _windowStyler = WindowsWindowStyleManager(window)
     private var theScheme: ColorScheme.Material? by mutableStateOf(null)
-    private val _windowStyler = WindowsWindowStyleManager(
-        window = window,
-    )
+
     override fun getScheme(
         color: Color, dark: Boolean, config: Monet.Config
     ): ColorScheme.Material {
@@ -96,9 +105,7 @@ class MonetWindow private constructor(window: Window):Kdrag0nProvider {
     init {
         updateColorBySystemAccent()
     }
-    fun updateColorBySystemAccent(
-        backdrop: WindowBackdrop = WindowBackdrop.Default,
-    ) {
+    fun updateColorBySystemAccent(backdrop: WindowBackdrop = WindowBackdrop.Default, ) {
         if (color == Color(0x01579B))
             color =  Color(systemColor?:0x01579B)
         getScheme()
@@ -108,6 +115,26 @@ class MonetWindow private constructor(window: Window):Kdrag0nProvider {
     }
     fun config(config: (Monet.Config)-> Monet.Config) = apply {
         this.config = config(this.config)
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as MonetWindow
+        if (isSystemDarkTheme() != other.isSystemDarkTheme()) return false
+        if (color != other.color) return false
+        if (config != other.config) return false
+        if (theScheme != other.theScheme) return false
+        return _windowStyler == other._windowStyler
+    }
+
+    override fun hashCode(): Int {
+        var result = color.hashCode()
+        result = 31 * result + config.hashCode()
+        result = 31 * result + (theScheme?.hashCode() ?: 0)
+        result = 31 * result + _windowStyler.hashCode()
+        return result
     }
 }
 

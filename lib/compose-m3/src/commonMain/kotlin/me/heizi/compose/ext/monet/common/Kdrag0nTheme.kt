@@ -2,10 +2,7 @@
 package me.heizi.compose.ext.monet.common
 
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import dev.kdrag0n.colorkt.rgb.Rgb
@@ -38,23 +35,23 @@ fun rememberProvider(): Kdrag0nProvider {
 
 @Composable
 fun Kdrag0nTheme(
-    provider: Kdrag0nProvider = rememberProvider(),
-    seekColor:Color = provider.systemColor() ?: Color(0x01579B),
+    isDark: Boolean = kdrag0nProvider.isSystemDarkTheme(),
+    baseScheme: ColorScheme = remember(isDark) { if (isDark) darkColorScheme() else lightColorScheme() },
+    config: Monet.Config = kdrag0nProvider.config,
+    seek: Color = kdrag0nProvider.systemColor() ?: Color(0x01579B),
     shapes: Shapes = MaterialTheme.shapes,
     typography: Typography = MaterialTheme.typography,
     content: @Composable () -> Unit
 ) {
-    val isDark by remember { mutableStateOf(provider.isSystemDarkTheme()) }
-    //fixme
-    println(seekColor)
-    val scheme = remember(seekColor,isDark) {
-        (if (isDark) darkColorScheme() else lightColorScheme())
-            .modifyFrom(provider.getScheme(seekColor,isDark,provider.config))
+    var scheme = baseScheme
+
+    LaunchedEffect(seek,isDark) {
+        scheme = baseScheme.modifyFrom(
+            Dynamic[Kolor(seek.toArgb()),config].let {
+                if (isDark) it.materialDark() else it.materialLight()
+            }
+        )
     }
-//    scheme =
-//    LaunchedEffect(isDark,seekColor,provider.config) {
-//
-//    }
     MaterialTheme(
         shapes = shapes,
         typography = typography,
@@ -62,7 +59,21 @@ fun Kdrag0nTheme(
         content = content
     )
 }
-
+@Composable
+fun Kdrag0nTheme(
+    provider: Kdrag0nProvider = rememberProvider(),
+    shapes: Shapes = MaterialTheme.shapes,
+    typography: Typography = MaterialTheme.typography,
+    content: @Composable () -> Unit
+) = Kdrag0nTheme(
+    isDark = provider.isSystemDarkTheme(),
+//    baseScheme = if (provider.isSystemDarkTheme()) darkColorScheme() else lightColorScheme(),
+    config = provider.config,
+    seek = provider.systemColor() ?: Color(0x01579B),
+    shapes = shapes,
+    typography = typography,
+    content = content
+)
 
 //@Suppress("NOTHING_TO_INLINE")
 //@Deprecated("not best but use it", ReplaceWith("Kdrag0nProvider"),DeprecationLevel.HIDDEN)
