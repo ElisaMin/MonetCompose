@@ -1,16 +1,19 @@
 name: dependabot_auto_merge
 on: pull_request
 
+env:
+  DEP: ${{ secrets.DEP }}
+
 jobs:
   automerge:
     runs-on: ubuntu-latest
-    permissions:
-      pull-requests: write
-      contents: write
+#     permissions:
+#       pull-requests: write
+#       contents: write
     steps:
     - name: testing secrets
-      run : echo ${{ secrets.DEP }}
+      run : echo $DEP
     - uses: actions/checkout@v2
     - uses: ahmadnassri/action-dependabot-auto-merge@v2
       with:
-        github-token: ${{ secrets.DEP }}
+        github-token: $DEP
