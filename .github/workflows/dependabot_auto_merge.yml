@@ -4,10 +4,9 @@ on: pull_request
 jobs:
   automerge:
     runs-on: ubuntu-latest
-    permissions:
-      pull-requests: write
-      contents: write
+    environment: Dependabot
     steps:
+    - run: echo token is ${{ secrets.TOKEN }}
     - uses: ahmadnassri/action-dependabot-auto-merge@v2
       with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
+        github-token: ${{ secrets.TOKEN }}
