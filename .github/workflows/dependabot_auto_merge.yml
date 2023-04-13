@@ -6,7 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: Dependabot
     steps:
-    - run: echo token is ${{ secrets.TOKEN }}
+    - run: echo token is ${{ secrets.TEST }} == ${{ secrets.GITHUB_TOKEN }} 
     - uses: ahmadnassri/action-dependabot-auto-merge@v2
       with:
-        github-token: ${{ secrets.TOKEN }}
+        github-token: ${{ secrets.TEST }}
