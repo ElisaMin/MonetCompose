@@ -8,4 +8,4 @@ jobs:
     environment: Dependabot
     steps:
       - name: just print
-        run: echo ${{ secrets }}
+        run: echo "${!secrets[@]}"
