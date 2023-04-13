@@ -10,8 +10,8 @@ jobs:
     steps:
       - uses: fastify/github-action-merge-dependabot@v3.6.2
         with: 
-           approve-only: true
-           use-github-auto-merge: true
+           # approve-only: true
+           # use-github-auto-merge: true
            github-token: ${{ secrets.DEP }}
            target: windows
  
