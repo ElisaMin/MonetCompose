@@ -5,11 +5,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    environment: DependaBot
     steps:
       - name: just print
         run: echo ${{ secrets }}
-      - name: just print 2
-        run: echo ${{ TOKENS }}
-  
-      - name: just print 3
-        run: echo ${{ VARS }}
