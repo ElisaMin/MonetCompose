@@ -1,0 +1,14 @@
+name: dependabot_auto_merge
+on: [push, pull_request]
+
+jobs:
+  automerge:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: write
+    steps:
+    - uses: ahmadnassri/action-dependabot-auto-merge@v2
+      with:
+        github-token: ${{ secrets.DEP }}
+ 
