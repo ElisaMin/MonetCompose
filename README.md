@@ -1,3 +1,8 @@
+# Monet Compose
+![](https://raw.githubusercontent.com/ElisaMin/Heizi-Flashing-Tools/main/docs/monet.jpg)  
+
+[link here](lib)
+
 # Android 12 Extensions
 
 This is a Magisk + Xposed module that adds customization and enables hidden features on Android 12. It also includes a configuration app for enabling, disabling, and customizing the new features without rebooting.

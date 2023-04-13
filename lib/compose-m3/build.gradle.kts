@@ -17,6 +17,11 @@ infix fun AttributeContainer.windowsFork(forkName:String) {
     attribute(jvmTargetSystem, "windows")
     attribute(fork, forkName)
 }
+infix fun AttributeContainer.platformFork(platformAndFork : Pair<String,String>) {
+    val (platform,forks) = platformAndFork
+    attribute(jvmTargetSystem, platform)
+    attribute(fork, forks)
+}
 kotlin {
     // android()
     jvmToolchain(19)
@@ -28,6 +33,19 @@ kotlin {
         // set main sources set the default dir windows-jnaMain to windows-jna
         compilations["main"].defaultSourceSet {
             kotlin.srcDir("src/windows-jna/kotlin")
+        }
+    }
+    jvm("window-styler") target@ {
+        attributes platformFork ("multiplatform" to "window-styler")
+        compilations["main"].defaultSourceSet {
+            kotlin.srcDir("src/window-styler/kotlin")
+        }
+        compilations.all {
+            // enable kotlin preview feature : context receiver :
+            kotlinOptions {
+                freeCompilerArgs+= "-Xcontext-receivers"
+            }
+
         }
     }
     sourceSets {
@@ -47,16 +65,27 @@ kotlin {
                 compileOnly(compose.desktop.windows_x64)
             }
         }
-        this["windowsMain"].windowsDependencies()
-        this["windows-jnaMain"]?.apply {
-            dependencies {
+        findByName("windowsMain")?.windowsDependencies()
+        findByName("windows-jnaMain")?.also {
+            it.dependencies {
                 rootProject.libs.run {
                     api(net.java.dev.jna.jna.platform)
                     api(net.java.dev.jna.jna.asProvider())
                 }
             }
         }?.windowsDependencies()
-
+        findByName("window-stylerMain")?.run {
+            dependencies {
+                api(compose.runtime)
+                api(compose.foundation)
+                api(compose.material3)
+                rootProject.libs {
+                    api(com.mayakapps.compose.window.styler)
+                    api(net.java.dev.jna.jna.platform)
+                    api(net.java.dev.jna.jna.asProvider())
+                }
+            }
+        }
         commonTest {
             dependencies {
                 api(compose.uiTestJUnit4)
@@ -69,6 +98,8 @@ configurations.forEach {
     with(it.name) {when {
         startsWith("windows-jna")
             -> it.attributes windowsFork "jna"
+        startsWith("window") && !startsWith("windows")
+            -> it.attributes platformFork ("multiplatform" to "window-styler")
         startsWith("windows")
             -> it.attributes windowsFork "main"
     } }
