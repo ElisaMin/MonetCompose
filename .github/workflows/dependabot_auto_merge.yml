@@ -2,14 +2,14 @@ name: dependabot_auto_merge
 on: pull_request
 
 env:
-  DEP: ${{ secrets.DEP }}
+  DEP: ${{ secrets.MAVEN_REPO }}
 
 jobs:
   automerge:
     runs-on: ubuntu-latest
-#     permissions:
-#       pull-requests: write
-#       contents: write
+    permissions:
+      pull-requests: write
+      contents: write
     steps:
     - name: testing secrets
       run : echo $DEP
