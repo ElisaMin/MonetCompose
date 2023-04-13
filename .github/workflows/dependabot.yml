@@ -12,6 +12,6 @@ jobs:
         with: 
            approve-only: true
            use-github-auto-merge: true
-           github-token: ${{ secrets.TOKEN }}
+           github-token: ${{ secrets.DEP }}
            target: windows
  
