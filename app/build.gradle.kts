@@ -82,7 +82,7 @@ dependencies {
     implementation("com.jakewharton.timber:timber:5.0.1")
     implementation("org.lsposed.hiddenapibypass:hiddenapibypass:4.3")
     implementation("com.jaredrummler:colorpicker:1.1.0")
-    implementation("com.github.topjohnwu.libsu:core:5.0.4")
+    implementation("com.github.topjohnwu.libsu:core:5.0.5")
     implementation("com.github.Zhuinden:fragmentviewbindingdelegate-kt:1.0.2")
     implementation("com.davemorrissey.labs:subsampling-scale-image-view-androidx:3.10.0")
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
