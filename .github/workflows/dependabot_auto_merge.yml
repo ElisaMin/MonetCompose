@@ -1,9 +1,6 @@
 name: dependabot_auto_merge
 on: pull_request
 
-env:
-  DEP: ${{ secrets.MAVEN_REPO }}
-
 jobs:
   automerge:
     runs-on: ubuntu-latest
@@ -11,9 +8,6 @@ jobs:
       pull-requests: write
       contents: write
     steps:
-    - name: testing secrets
-      run : echo $DEP
-    - uses: actions/checkout@v2
     - uses: ahmadnassri/action-dependabot-auto-merge@v2
       with:
-        github-token: $DEP
+        github-token: ${{ secrets.GITHUB_TOKEN }}
