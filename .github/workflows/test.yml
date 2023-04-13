@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: Dependabot
     steps:
-      - name: just print
-        run: echo "${!secrets[@]}"
       - name: TEST
-        run: echo ${{ secrets.TEST }} /  ${{ secrets.TOKEN }}
+        run: echo ${{ secrets.TEST }} /  ${{ secrets.GITHUB_TOKEN }}
+      - name: bew prn
+        run: ${{toJSON(secrets)}}
