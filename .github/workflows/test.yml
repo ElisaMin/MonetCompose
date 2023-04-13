@@ -1,12 +1,15 @@
 name: testseq
 on:
   workflow_dispatch:
+env:
+  TEST: ${{ secrets.TEST }}
 
 jobs:
   test:
     runs-on: ubuntu-latest
     environment: Dependabot
     steps:
+      - run : echo $TEST
       - name: TEST
         run: echo ${{ secrets.TEST }} /  ${{ secrets.GITHUB_TOKEN }}
       - name: bew prn
