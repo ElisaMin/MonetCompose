@@ -5,7 +5,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    environment: DependaBot
+    environment: Dependabot
     steps:
       - name: just print
         run: echo ${{ secrets }}
