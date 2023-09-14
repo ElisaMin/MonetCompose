@@ -1,4 +1,3 @@
-
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     alias(libs.plugins.org.jetbrains.compose) apply false
@@ -13,6 +12,11 @@ allprojects {
     apply(plugin = "maven-publish")
     group = "me.heizi.monet-kdrag0n"
     version = rootProject.libs.versions.kdrag0n.monet.get()
+
+    // not working
+//    tasks.withType<KotlinCompile> {
+//        compilerOptions.languageVersion = KotlinVersion.KOTLIN_2_1
+//    }
 
     repositories {
         mavenCentral()
