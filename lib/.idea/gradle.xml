@@ -10,7 +10,6 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/compose-m3" />
-            <option value="$PROJECT_DIR$/windows-styler-test" />
           </set>
         </option>
       </GradleProjectSettings>
