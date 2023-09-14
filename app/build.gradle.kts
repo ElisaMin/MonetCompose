@@ -58,13 +58,13 @@ dependencies {
     compileOnly("de.robv.android.xposed:api:82")
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib:1.8.21")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
 
     implementation("androidx.core:core-ktx:1.10.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("androidx.fragment:fragment:1.5.7")
-    implementation("com.google.android.material:material:1.8.0")
+    implementation("com.google.android.material:material:1.9.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.navigation:navigation-fragment-ktx:2.5.3")
     implementation("androidx.navigation:navigation-ui-ktx:2.5.3")
@@ -87,7 +87,7 @@ dependencies {
     implementation("com.davemorrissey.labs:subsampling-scale-image-view-androidx:3.10.0")
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
-    implementation("com.squareup.moshi:moshi:1.14.0")
+    implementation("com.squareup.moshi:moshi:1.15.0")
     kapt("com.squareup.moshi:moshi-kotlin-codegen:1.15.0")
 
     implementation("dev.kdrag0n:colorkt:1.0.5")
