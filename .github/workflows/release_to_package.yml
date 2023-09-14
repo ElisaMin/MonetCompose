@@ -27,7 +27,7 @@ jobs:
             distribution: 'temurin'
         
         - name: gradle build
-          uses: gradle/gradle-build-action@v2.4.0
+          uses: gradle/gradle-build-action@v2.4.2
           with: 
             gradle-version: current
             arguments: build
@@ -56,7 +56,7 @@ jobs:
             echo done
             
         - name: publish to github packages
-          uses: gradle/gradle-build-action@v2.4.0
+          uses: gradle/gradle-build-action@v2.4.2
           with: 
             gradle-version: current
             arguments: publish
