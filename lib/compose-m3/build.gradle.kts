@@ -51,6 +51,7 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
+                implementation(kotlin("stdlib"))
                 implementation("dev.kdrag0n:colorkt:${rootProject.libs.versions.kotlin.color.get()}")
                 implementation(rootProject)
                 api(compose.runtime)
@@ -88,7 +89,7 @@ kotlin {
         }
         commonTest {
             dependencies {
-                api(compose.uiTestJUnit4)
+                api(compose.desktop.uiTestJUnit4)
                 compileOnly(compose.desktop.currentOs)
             }
         }
