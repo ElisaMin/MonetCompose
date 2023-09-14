@@ -43,18 +43,29 @@ inline fun WindowScope.Monet(crossinline block: @Composable MonetWindow.() -> Un
 class MonetWindow private constructor(window: Window):Kdrag0nProvider {
 
     companion object {
-        val systemColor by lazy {
+        @JvmStatic
+        @JvmSynthetic
+        var systemColor: Int? = null
+            private set
+        @JvmStatic
+        @JvmSynthetic
+        var isDark: Boolean = false
+            private set
+
+        init {
             runCatching {
-                DwmApi.instance.systemSeekColor()
+                systemColor = DwmApi.instance.systemSeekColor()
             }.getOrNull()
-        }
-        val isDark by lazy {
-            runCatching {
+            DwmApi.instance.systemSeekColor()
+
+            isDark = runCatching {
                 Advapi32Util.registryGetIntValue(WinReg.HKEY_CURRENT_USER, "SOFTWARE\\Microsoft\\Windows\\DWM", "AppsUseLightTheme")
             }.getOrElse { runCatching {
                 Advapi32Util.registryGetIntValue(WinReg.HKEY_CURRENT_USER, "Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize", "AppsUseLightTheme")
             }.getOrDefault(1) } == 0
+
         }
+
         val local: ProvidableCompositionLocal<MonetWindow> = staticCompositionLocalOf {
             throw NotImplementedError("MonetWindow is not provided")
         }
