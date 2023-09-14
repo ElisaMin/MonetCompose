@@ -47,3 +47,6 @@ bin/
 */.igor*/*
 
 *_pid*.log
+
+# test
+windows-styler-test/src
