@@ -6,6 +6,8 @@
       <module name="lib" target="17" />
       <module name="lib.main" target="17" />
       <module name="lib.test" target="17" />
+      <module name="monet-kdrag0n" target="19" />
+      <module name="monet-kdrag0n.compose-m3" target="19" />
       <module name="MonetCompose" target="17" />
     </bytecodeTargetLevel>
   </component>

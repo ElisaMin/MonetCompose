@@ -23,6 +23,7 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$/lib" />
+            <option value="$PROJECT_DIR$/lib/compose-m3" />
           </set>
         </option>
       </GradleProjectSettings>
