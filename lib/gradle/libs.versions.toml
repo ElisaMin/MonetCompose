@@ -7,7 +7,7 @@ kotlin-napier = "2.6.1"
 compose = "1.5.1"
 windowStyler = "0.3.2"
 gradle-versionCatalogUpdate = "0.8.1"
-java-jna = "5.13.0"
+java-jna = "5.14.0"
 # agp= "7.4.2"
 
 [libraries]
